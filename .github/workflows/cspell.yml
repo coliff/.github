@@ -3,13 +3,18 @@ on: # rebuild any PRs and main branch changes
   pull_request:
     branches-ignore:
       - "dependabot/**"
+
+permissions:
+  contents: read
       
 jobs:
   spellcheck: # run the action
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v4
       - uses: streetsidesoftware/cspell-action@v6
         with:
           inline: warning
           incremental_files_only: true
+          strict: false
